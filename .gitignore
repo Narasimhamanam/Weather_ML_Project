@@ -1,0 +1,22 @@
+# Secrets & Configuration
+data/secrets.ini
+*.ini
+!data/secrets.ini.example
+.env
+.env.*
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
