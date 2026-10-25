@@ -23,10 +23,15 @@ rain_model = joblib.load(os.path.join(MODEL_DIR, 'rain_forest_model.joblib'))
 temp_model = joblib.load(os.path.join(MODEL_DIR, 'temp_forest_model.joblib'))
 encoders = joblib.load(os.path.join(MODEL_DIR, 'encoders.joblib'))
 
-# === Load API Key ===
-config = configparser.ConfigParser()
-config.read(os.path.join(os.path.dirname(__file__), '..', 'data', 'secrets.ini'))
-API_KEY = config['openweathermap']['api_key']
+# === Load API Key (Environment variable preferred, secrets.ini fallback) ===
+API_KEY = os.environ.get("OPENWEATHER_API_KEY")
+secrets_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'secrets.ini')
+if not API_KEY and os.path.exists(secrets_path):
+    config = configparser.ConfigParser()
+    config.read(secrets_path)
+    if 'openweathermap' in config:
+        API_KEY = config['openweathermap'].get('api_key', '')
+
 BASE_URL = 'https://api.openweathermap.org/data/2.5/weather'
 
 # === Live Prediction Route ===
